@@ -1,0 +1,169 @@
+PS C:\vscodeme\works> .\main.exe
+=== Remote Sensing Data Processing System ===
+Total DataObjects created: 0
+
+======== Pixel Test ========
+Pixel p1: R:0.3 G:0.5 B:0.2 NIR:0.8 Thermal:300
+Pixel p2: R:0.1 G:0.4 B:0.3 NIR:0.6 Thermal:250
+Pixel p3: R:0.1 G:0.4 B:0.3 NIR:0.6 Thermal:250
+p1 brightness: 0.45
+(string)p2red:0.1  green:0.4  blue:0.3  nir:0.6  thermal:250  timestamp:2.02601e+11
+p1 NDVI: 0.454545
+p1 NDWI: -0.230769
+p1 SAVI(L=0.5): 0.46875
+p1 + p2: R:0.4 G:0.9 B:0.5 NIR:1.4 Thermal:550
+p1 * 2: R:0.6 G:1 B:0.4 NIR:1.6 Thermal:600
+p1 += p2: R:0.4 G:0.9 B:0.5 NIR:1.4 Thermal:550
+p1 == p2: false
+p1[0](Red): 0.4, p1[3](NIR): 1.4
+
+======== SatelliteImage Test ========
+Created SatelliteImage: SatelliteImage: Beijing_Landsat   Size: 5x5    Bands: 5
+Type: SatelliteImage
+Quality Score: 92.5
+Is Valid: Yes
+SatelliteImage:  Beijing_Landsat  5x5
+=== Image Statistics ===
+Mean: 0.3375
+Min: 0.2375
+Max: 0.4375
+StdDev: 0.05
+SubImage size: 3x3
+Red band extracted: 5x5, bands: 1
+Random image created: img_random
+Random pixel [0][0] red: 0.912015
+=== Image Statistics ===
+Mean: 0.49465
+Min: 0.267602
+Max: 0.957129
+StdDev: 0.165822
+img1 + img2 created: img001_add
+=== Image Statistics ===
+Mean: 0.4375
+Min: 0.3375
+Max: 0.5375
+StdDev: 0.05
+img1 += img2 done
+NDVI map size: 5x5
+NDVI[0][0]: 0.5
+350  350  350  350  350  360  360  360  360  360  370  370  370  370  370  380  380  380  380  380  390  390  390  390  390  
+Successfully exported data in txt format.
+
+======== PointCloudData Test ========
+Created PointCloud: Building_Scan (cloud001)
+Type: PointCloud
+=== PointCloudData ===
+ID: cloud001
+Name: Building_Scan
+Path: ./data/
+Point Count: 5
+Bounds (X): [1, 10]
+Bounds (Y): [2, 10]
+Bounds (Z): [3, 10]
+=== Point Cloud Statistics ===
+Total Points: 5
+Average Height (Z): 5.5
+Height Range (Z): 7 (Min: 3, Max: 10)
+X Range: 9 (Min: 1, Max: 10)
+Y Range: 8 (Min: 2, Max: 10)
+Average Intensity: 124
+Classification Distribution:
+  Class 3: 1 points (20%)
+  Class 1: 3 points (60%)
+  Class 2: 1 points (20%)
+Average Height: 5.5
+Height Range: 7
+Point[0]: (1, 2, 3)
+Point[2]: (5, 6, 7)
+distance of P0 and P26.9282
+Pa =P0 + P2 :  (6, 8, 10150)
+After voxel filter: 4 points
+Successfully exported data in txt format.
+Successfully exported data in pcd format.
+
+======== DataManager Template Class Test ========
+DataManager created
+Added 3 images, total count: 3
+Found image: Guangzhou_Landsat
+Sorted by size (ascending):
+  Guangzhou_Landsat: 0.00244141 MB
+  Shanghai_Sentinel: 0.0038147 MB
+  Shenzhen_Sentinel: 0.00549316 MB
+Filtered Sentinel2 images: 2
+Type statistics:
+  SatelliteImage: 3
+imgManager[0]: Shanghai_Sentinel
+Merged manager count: 4
+=== DataManager Statistics ===
+Total Operation Count: 9
+Total Data Count: 3
+Total Data Size (MB): 0.0117493
+Unique Data Count: 3
+Type Distribution:
+  SatelliteImage: 3
+
+======== DataExporter Test ========
+Exporter created
+Successfully exported CSV file: ./output/test_export/Shanghai_Sentinel_1779010992.csv
+Successfully exported CSV file: ./output/test_export/Guangzhou_Landsat_1779010992.csv
+Exported 2 CSV files
+Successfully exported JSON file: ./output/test_export/Shanghai_Sentinel_1779010992.json
+Successfully exported JSON file: ./output/test_export/Guangzhou_Landsat_1779010992.json
+Exported 2 JSON files
+===Exporter Statistics===
+Total export path: ./output/test_export/
+Number of successful exports: 4
+
+======== Algorithms Test ========
+NDVI: 0.454545
+NDWI: 0.25
+SAVI: 0.46875
+EVI: 0.438596
+MNDWI: 0.428571
+Histogram: 0.111111 0.222222 0.333333 0.222222 0.111111 
+Entropy: 2.19716
+Convolved image center: 0
+
+======== Polymorphism Test ========
+Object ID: poly_img, Type: SatelliteImage
+SatelliteImage:  PolyTest  3x3
+Object ID: poly_cloud, Type: PointCloud
+=== PointCloudData ===
+ID: poly_cloud
+Name: PolyCloud
+Path: ./
+Point Count: 2
+Bounds (X): [1, 4]
+Bounds (Y): [2, 5]
+Bounds (Z): [3, 6]
+
+======== Polymorphism & Memory Management Test ========
+Raw Pointer Version (Manual Delete)
+SatelliteImage:  RawTest  3x3
+Raw cloned type: SatelliteImage
+SatelliteImage:  RawTest  3x3
+Raw pointers manually deleted
+
+--- Smart Pointer Version (Auto Release) ---
+=== PointCloudData ===
+ID: smart_cloud
+Name: SmartTest
+Path: ./
+Point Count: 1
+Bounds (X): [10, 10]
+Bounds (Y): [20, 20]
+Bounds (Z): [30, 30]
+Smart cloned type: PointCloud
+=== PointCloudData ===
+ID: smart_cloud
+Name: SmartTest
+Path: ./
+Point Count: 1
+Bounds (X): [10, 10]
+Bounds (Y): [20, 20]
+Bounds (Z): [30, 30]
+Smart pointers auto-released
+
+======== Summary ========
+Total DataObjects created: 65
+All tests completed successfully!

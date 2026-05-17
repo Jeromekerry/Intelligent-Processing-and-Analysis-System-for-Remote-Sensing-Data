@@ -1,0 +1,233 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+skinparam backgroundColor #FEFEFE
+
+abstract class DataObject <<abstract>> {
+  - id: string
+  - name: string
+  - path: string
+  - size: double
+  - createTime: time_t
+  - metadata: map<string,string>
+  - accessCount: int {mutable}
+  - totalObjects: static int
+  + display() = 0
+  + clone() = 0
+  + exportData(format) = 0
+  + getType(): string
+  + getQualityScore(): double
+  + isValid(): bool
+  + operator==()
+  + operator!=()
+  + operator<()
+  + getId(): string
+  + getName(): string
+  + getPath(): string
+  + getSize(): double
+  + getCreateTime(): time_t
+  + getAccessCount(): int
+  + addMetadata()
+  + getMetadata(): string
+  + hasMetadata(): bool
+  + removeMetadata()
+  + getTotalObjects(): static int
+  + resetTotalObjects(): static
+  # updateSize()
+  # setPath()
+}
+
+class SatelliteImage {
+  - width: int
+  - height: int
+  - bands: int
+  - sensorType: string
+  - cloudCover: double
+  - acquisitionTime: double
+  - data: vector<vector<Pixel>>
+  - bandStatistics: vector<double>
+  + operator[](): vector<Pixel>&
+  + operator+(): SatelliteImage
+  + operator-(): SatelliteImage
+  + operator*(): SatelliteImage
+  + operator/(): SatelliteImage
+  + operator+=(): SatelliteImage&
+  + operator-=(): SatelliteImage&
+  + operator==(): bool
+  + getSubImage(): SatelliteImage
+  + extractBand(): SatelliteImage
+  + calculateNDVI(): vector<vector<double>>
+  + calculateNDWI(): vector<vector<double>>
+  + calculateSAVI(): vector<vector<double>>
+  + calculateTemperature(): vector<vector<double>>
+  + getMeanValue(): double
+  + getMinValue(): double
+  + getMaxValue(): double
+  + getStdDev(): double
+  + printStatistics()
+  + refreshStatistics()
+  + applyGaussianBlur()
+  + applyMedianFilter()
+  + normalize()
+  + resample()
+  + getWidth(): int
+  + getHeight(): int
+  + getBands(): int
+  + getSensorType(): string
+  + getCloudCover(): double
+  + setCloudCover()
+  + getAcquisitionTime(): double
+  + setAcquisitionTime()
+  + createRandomImage(): static
+  + createConstantImage(): static
+}
+
+class PointCloudData {
+  - points: vector<Point3D>
+  - minX: double
+  - maxX: double
+  - minY: double
+  - maxY: double
+  - minZ: double
+  - maxZ: double
+  + operator+(): PointCloudData
+  + operator+=(): PointCloudData&
+  + operator[](): Point3D&
+  + addPoint()
+  + addPoints()
+  + getPointCount(): int
+  + voxelFilter(): PointCloudData
+  + statisticalOutlierRemoval(): PointCloudData
+  + getAverageHeight(): double
+  + getHeightRange(): double
+  + printStatistics()
+  + getPoints(): vector<Point3D>&
+  + getMinX(): double
+  + getMaxX(): double
+  + getMinY(): double
+  + getMaxY(): double
+  + getMinZ(): double
+  + getMaxZ(): double
+}
+
+class Pixel<T> <<template>> {
+  - red: T
+  - green: T
+  - blue: T
+  - nir: T
+  - thermal: T
+  - timestamp: double
+  - accessCount: int {mutable}
+  + operator+(): Pixel
+  + operator-(): Pixel
+  + operator*(): Pixel
+  + operator/(): Pixel
+  + operator+=(): Pixel&
+  + operator-=(): Pixel&
+  + operator==(): bool
+  + operator!=(): bool
+  + operator[](): T&
+  + getNDVI(): double
+  + getNDWI(): double
+  + getSAVI(): double
+  + getBrightness(): double
+  + getTemperature(): double
+  + getRed(): T
+  + getGreen(): T
+  + getBlue(): T
+  + getNir(): T
+  + getThermal(): T
+  + setRed()
+  + setGreen()
+  + setBlue()
+  + setNir()
+  + setThermal()
+}
+
+class Point3D {
+  + x: double
+  + y: double
+  + z: double
+  + intensity: double
+  + classification: int
+  + operator+(): Point3D
+  + operator-(): Point3D
+  + distanceTo(): double
+}
+
+class DataManager<T> <<template>> {
+  - dataList: vector<T>
+  - categoryMap: map<string,vector<T>>
+  - uniqueData: set<T>
+  - operationCount: int {mutable}
+  + addData()
+  + removeData()
+  + findData(): T
+  + contains(): bool
+  + clear()
+  + addDataList()
+  + getDataByType(): vector<T>
+  + sortBySize(): vector<T>
+  + sortByName(): vector<T>
+  + sortByTime(): vector<T>
+  + filter(): vector<T>
+  + getTotalSize(): double
+  + getCount(): int
+  + getUniqueCount(): int
+  + getTypeStatistics(): map
+  + printStatistics()
+  + operator[](): T&
+  + operator+(): DataManager
+  + operator+=(): DataManager&
+  + begin()
+  + end()
+  + forEach()
+  + transform()
+  + merge(): static
+}
+
+class DataExporter {
+  - exportPath: string
+  - exportCount: int
+  + batchExport(): int
+  + printExportStats()
+}
+
+class Algorithms <<namespace>> {
+  + calculateNDVI(): double
+  + calculateNDWI(): double
+  + calculateSAVI(): double
+  + calculateEVI(): double
+  + calculateMNDWI(): double
+  + calculateAWEI(): double
+  + kMeansClustering(): vector<int>
+  + convolve(): vector<vector<T>>
+  + calculateEntropy(): double
+  + calculateHistogram(): vector<double>
+}
+
+' 继承关系
+DataObject <|-- SatelliteImage
+DataObject <|-- PointCloudData
+
+' 组合关系
+SatelliteImage "1" *-- "*" Pixel : contains
+PointCloudData "1" *-- "*" Point3D : contains
+
+' 关联关系
+DataManager "1" o-- "*" DataObject : manages
+DataExporter ..> DataObject : exports
+
+' 友元关系
+DataObject ..> DataExporter : <<friend>>
+
+' 模板参数说明
+note right of Pixel
+  T = double / float / int
+end note
+
+note right of DataManager
+  T = DataObject子类
+end note
+
+@enduml

@@ -1,0 +1,18 @@
+{
+  "basic_info": {
+    "id": "img004",
+    "name": "Guangzhou_Landsat",
+    "path": "./data/",
+    "type": "SatelliteImage",
+    "size_mb": 0.00244141,
+    "access_count": 12
+  },
+  "satellite_image_detail": {
+    "width": 8,
+    "height": 8,
+    "bands": 5,
+    "sensor": "Landsat8",
+    "cloud_cover": 15,
+    "quality_score": 92.5
+  }
+}

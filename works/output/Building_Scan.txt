@@ -1,0 +1,8 @@
+PointCloudData: Building_Scan
+Point Count: 5
+X Y Z Intensity Classification
+1 2 3 100 1
+2 3 4 150 1
+5 6 7 200 2
+1.5 2.5 3.5 120 1
+10 10 10 50 3

@@ -1,0 +1,18 @@
+General Information
+ID,img003
+Name,Shanghai_Sentinel
+Path,./data/
+Type,SatelliteImage
+Size(MB),0.0038147
+Access Count,1
+
+Image Detail
+Width,10
+Height,10
+Bands,5
+Sensor,Sentinel2
+Cloud Cover(%),15
+Quality Score,92.5
+
+Statistics(Mean,Min,Max,StdDev)
+0.4725,0.3375,0.6075,0.0609303
